@@ -1,0 +1,4 @@
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/.ai/run/run-3/CM7/Core/Src/main.c:174:6:SystemClock_Config	120	static,ignoring_inline_asm
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/.ai/run/run-3/CM7/Core/Src/main.c:81:5:main	40	static,ignoring_inline_asm
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/.ai/run/run-3/CM7/Core/Src/main.c:233:6:MX_USART3_UART_Init	8	static,ignoring_inline_asm
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/.ai/run/run-3/CM7/Core/Src/main.c:332:6:Error_Handler	0	static,ignoring_inline_asm

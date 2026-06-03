@@ -1,0 +1,44 @@
+{
+  "args": {
+    "model": "C:\\Univpm\\Secondo Anno Magistrale\\Sistemi operativi dedicati\\handGesture\\cfs-model\\modello_cfs_99%_float32.keras",
+    "valinput": "",
+    "valoutput": "",
+    "batch-size": 10,
+    "mode": "host",
+    "optimization": "balanced",
+    "name": "network",
+    "verbosity": 1,
+    "c-api": "st-ai",
+    "target": "stm32h7",
+    "memory-pool": "C:\\Users\\eeebr\\.stm32cubeaistudio\\workspace\\CartaForbiciSassoGame\\.ai\\run\\run-1\\.ai\\mempools.json"
+  },
+  "mempools": [
+    {
+      "name": "DTCMRAM",
+      "size": 131072,
+      "offset": 536870912,
+      "driver": "DTCMRAM",
+      "max": 131072,
+      "mode_available": []
+    },
+    {
+      "name": "ITCMRAM",
+      "size": 65536,
+      "offset": 0,
+      "driver": "ITCMRAM",
+      "max": 65536,
+      "mode_available": []
+    },
+    {
+      "name": "RAM_D1",
+      "size": 524288,
+      "offset": 603979776,
+      "driver": "RAM_D1",
+      "max": 524288,
+      "mode_available": []
+    }
+  ],
+  "exportWeightsAsBin": false,
+  "copyWeightsToRam": false,
+  "automaticFlash": true
+}

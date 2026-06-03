@@ -1,0 +1,24 @@
+config load "C:\Users\eeebr\.stm32cubeaistudio\workspace\CartaForbiciSassoGame\.ai\run\run-3\run-3.ioc"
+project toolchain STM32CubeIDE
+pack context CortexM7
+project toolchain "STM32CubeIDE"
+set context CortexM7 RCC
+switch context CortexM7 RCC
+set mode RCC HSE-External-Clock-Source
+config save
+set ip parameters CORTEX_M7 CPU_ICache Enabled
+set ip parameters CORTEX_M7 CPU_DCache Enabled
+set ip parameters CORTEX_M7 MPU_Control MPU_PRIVILEGED_DEFAULT
+project set stackbycontext M7 0x2000
+project set heapbycontext M7 0x800
+set gpio parameters PD9 GPIO_PuPd GPIO_PULLUP
+set context CortexM7 USART3
+switch context CortexM7 USART3
+set gpio parameters PD9 PinAttribute CortexM7
+set gpio parameters PD8 PinAttribute CortexM7
+set pin PD9 USART3_RX
+set pin PD8 USART3_TX
+set mode USART3 Asynchronous
+config save
+set ip parameters USART3 BaudRate 115200
+set gpio parameters PD9 GPIO_PuPd GPIO_PULLUP

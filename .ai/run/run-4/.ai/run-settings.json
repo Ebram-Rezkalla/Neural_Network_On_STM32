@@ -1,0 +1,56 @@
+{
+  "args": {
+    "model": "C:\\Univpm\\Secondo Anno Magistrale\\Sistemi operativi dedicati\\handGesture\\cfs-model\\mobilenet_rock_paper_scissors_int8.tflite",
+    "valinput": "",
+    "valoutput": "",
+    "batch-size": 10,
+    "mode": "target",
+    "name": "network",
+    "verbosity": 1,
+    "c-api": "st-ai",
+    "input-data-type": "uint8",
+    "output-data-type": "float32",
+    "allocate-activations": true,
+    "allocate-states": true,
+    "optimization": "ram",
+    "target": "stm32h7",
+    "workspace": "C:\\Users\\eeebr\\.stm32cubeaistudio\\workspace\\CartaForbiciSassoGame\\.ai\\run\\run-4\\.ai\\st_ai_ws",
+    "output": "C:\\Users\\eeebr\\.stm32cubeaistudio\\workspace\\CartaForbiciSassoGame\\.ai\\run\\run-4\\.ai\\st_ai_output",
+    "memory-pool": "C:\\Users\\eeebr\\.stm32cubeaistudio\\workspace\\CartaForbiciSassoGame\\.ai\\run\\run-4\\.ai\\mempools.json"
+  },
+  "mempools": [
+    {
+      "name": "DTCMRAM",
+      "size": 131072,
+      "offset": 536870912,
+      "driver": "DTCMRAM",
+      "max": 131072,
+      "mode_available": []
+    },
+    {
+      "name": "ITCMRAM",
+      "size": 65536,
+      "offset": 0,
+      "driver": "ITCMRAM",
+      "max": 65536,
+      "mode_available": []
+    },
+    {
+      "name": "RAM_D1",
+      "size": 524288,
+      "offset": 603979776,
+      "driver": "RAM_D1",
+      "max": 524288,
+      "mode_available": []
+    }
+  ],
+  "exportWeightsAsBin": false,
+  "copyWeightsToRam": false,
+  "automaticFlash": true,
+  "splitWeightsMapping": {
+    "external": [
+      "g_network_weights_array"
+    ],
+    "internal": []
+  }
+}

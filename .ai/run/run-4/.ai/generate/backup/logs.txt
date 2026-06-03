@@ -1,0 +1,2 @@
+Generate Project
+Copying previous project files from C:\Users\eeebr\.stm32cubeaistudio\workspace\CartaForbiciSassoGame\.ai\run\run-4 to C:\Users\eeebr\.stm32cubeaistudio\workspace\CartaForbiciSassoGame\.ai\run\run-4\.ai\generate\backup

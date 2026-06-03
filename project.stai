@@ -1,0 +1,21 @@
+{
+  "toolchain": "STM32CubeIDE",
+  "variant": "ApplicationTemplate",
+  "fromMx": false,
+  "isGenerated": true,
+  "name": "CartaForbiciSassoGame",
+  "createdAt": 1780330973689,
+  "lastModified": 1780335110122,
+  "lastAccessed": 1780335110121,
+  "path": "C:\\Users\\eeebr\\.stm32cubeaistudio\\workspace",
+  "board": "NUCLEO-H745ZI-Q",
+  "mcu": "",
+  "type": "BYOM",
+  "lastGenerationRunId": "run-4",
+  "context": "CortexM7",
+  "uartInstance": {
+    "usart": "USART3",
+    "txpin": "PD8",
+    "rxpin": "PD9"
+  }
+}

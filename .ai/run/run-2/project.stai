@@ -1,0 +1,14 @@
+{
+  "toolchain": "STM32CubeIDE",
+  "variant": "Validation",
+  "fromMx": false,
+  "isGenerated": false,
+  "name": "run-2",
+  "createdAt": 1780330973689,
+  "lastModified": 1780332865112,
+  "lastAccessed": 1780332865065,
+  "path": "C:\\Users\\eeebr\\.stm32cubeaistudio\\workspace\\CartaForbiciSassoGame",
+  "board": "NUCLEO-H745ZI-Q",
+  "mcu": "",
+  "type": "BYOM"
+}
