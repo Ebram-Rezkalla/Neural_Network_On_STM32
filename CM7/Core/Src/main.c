@@ -172,27 +172,6 @@ Error_Handler();
     // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); //LCD Backlight to 3V3
     ov7670_init(&hdcmi, &hdma_dcmi, &hi2c2);
     ov7670_config(OV7670_MODE_QVGA_YUV);
-    ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)foto);
-
-
-    HAL_UART_Transmit(&huart3, (uint8_t*)"*START*\r\n", 9, 1000);
-    uint8_t* pFotoBytes = (uint8_t*)foto;
-    int indice_grigi = 0;
-
-    for (int i = 0; i < 153600; i += 2) {
-        buffer_grigi[indice_grigi] = pFotoBytes[i];
-        indice_grigi++;
-    }
-
-    for (int riga = 0; riga < 240; riga++) {
-        uint8_t* puntatore_riga = &buffer_grigi[riga * 320];
-
-        HAL_UART_Transmit(&huart3, puntatore_riga, 320, 100);
-
-        HAL_Delay(1);
-    }
-
-    HAL_UART_Transmit(&huart3, (uint8_t*)"*END*", 5, 100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -200,9 +179,35 @@ Error_Handler();
   while (1)
   {
 // STM32CubeAI_Studio_AI_Process();
+	  // 1. Avvia lo scatto singolo (Snapshot)
+	      ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)foto);
+
+	      while(HAL_DCMI_GetState(&hdcmi) == HAL_DCMI_STATE_BUSY) {
+	              // Aspetta qui senza toccare registri
+	          }
+	      // 3. Ora che il frame è statico e sicuro, avvertiamo Python
+	      HAL_UART_Transmit(&huart3, (uint8_t*)"*START*\r\n", 9, 100);
+
+	      uint8_t* pFotoBytes = (uint8_t*)foto;
+	      int indice_grigi = 0;
+
+	      // 4. Compattiamo in RAM
+	      for (int i = 0; i < 153600; i += 2) {
+	          buffer_grigi[indice_grigi] = pFotoBytes[i];
+	          indice_grigi++;
+	      }
+
+	      // 6. Invio a pacchetti riga per riga
+	      for (int riga = 0; riga < 240; riga++) {
+	          uint8_t* puntatore_riga = &buffer_grigi[riga * 320];
+	          HAL_UART_Transmit(&huart3, puntatore_riga, 320, 100);
+	          HAL_Delay(1);
+	      }
+	      HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
