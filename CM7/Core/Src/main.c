@@ -65,8 +65,9 @@ UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
 #define MAX_PICTURE_BUFF     38400
+#define DIMENSIONE_GRIGI     76800
 uint32_t* foto[MAX_PICTURE_BUFF];
-uint8_t tx_buffer[27]="Welcome to BinaryUpdates!\n\r";
+uint8_t buffer_grigi[DIMENSIONE_GRIGI];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -173,19 +174,25 @@ Error_Handler();
     ov7670_config(OV7670_MODE_QVGA_YUV);
     ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)foto);
 
-    // 2. Invia una stringa di testo speciale. Serve al PC per capire che sta iniziando la foto
-    // 2. Invia il segnale di inizio allo script Python
-    HAL_UART_Transmit(&huart3, (uint8_t*)"*START*\r\n", 9, 1000);
 
+    HAL_UART_Transmit(&huart3, (uint8_t*)"*START*\r\n", 9, 1000);
     uint8_t* pFotoBytes = (uint8_t*)foto;
+    int indice_grigi = 0;
 
     for (int i = 0; i < 153600; i += 2) {
-        // Trasmettiamo solo il singolo byte Y (1 byte alla volta)
-        HAL_UART_Transmit(&huart3, &pFotoBytes[i], 1, 10);
+        buffer_grigi[indice_grigi] = pFotoBytes[i];
+        indice_grigi++;
     }
 
-    // 3. Segnale di fine file
-    HAL_UART_Transmit(&huart3, (uint8_t*)"\r\n*END*\r\n", 9, 1000);
+    for (int riga = 0; riga < 240; riga++) {
+        uint8_t* puntatore_riga = &buffer_grigi[riga * 320];
+
+        HAL_UART_Transmit(&huart3, puntatore_riga, 320, 100);
+
+        HAL_Delay(1);
+    }
+
+    HAL_UART_Transmit(&huart3, (uint8_t*)"*END*", 5, 100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -194,6 +201,7 @@ Error_Handler();
   {
 // STM32CubeAI_Studio_AI_Process();
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -361,7 +369,7 @@ static void MX_USART3_UART_Init(void)
 
   /* USER CODE END USART3_Init 1 */
   huart3.Instance = USART3;
-  huart3.Init.BaudRate = 115200;
+  huart3.Init.BaudRate = 921600;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
   huart3.Init.StopBits = UART_STOPBITS_1;
   huart3.Init.Parity = UART_PARITY_NONE;
