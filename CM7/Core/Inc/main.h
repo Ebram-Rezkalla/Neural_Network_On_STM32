@@ -61,6 +61,8 @@ void Error_Handler(void);
 #define STLINK_RX_GPIO_Port GPIOD
 #define STLINK_TX_Pin GPIO_PIN_9
 #define STLINK_TX_GPIO_Port GPIOD
+#define CAMERA_RESET_Pin GPIO_PIN_11
+#define CAMERA_RESET_GPIO_Port GPIOD
 
 /* USER CODE BEGIN Private defines */
 

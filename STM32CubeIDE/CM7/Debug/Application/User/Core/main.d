@@ -21,6 +21,7 @@ Application/User/Core/main.o: \
  ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h \
  ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma_ex.h \
  ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h \
+ ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dcmi.h \
  ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_exti.h \
  ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h \
  ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h \
@@ -39,7 +40,8 @@ Application/User/Core/main.o: \
  ../../../Middlewares/ST/AI/Inc/core_assert.h \
  ../../../CM7/AI/App/network.h \
  ../../../Middlewares/ST/AI/Inc/stai_debug.h \
- ../../../Middlewares/ST/AI/Inc/stai.h ../../../CM7/AI/App/user_init.h
+ ../../../Middlewares/ST/AI/Inc/stai.h ../../../CM7/AI/App/user_init.h \
+ ../../../CM7/Core/Inc/common.h ../../../CM7/Core/Inc/ov7670.h
 ../../../CM7/Core/Inc/main.h:
 ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../../../CM7/Core/Inc/stm32h7xx_hal_conf.h:
@@ -61,6 +63,7 @@ Application/User/Core/main.o: \
 ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h:
 ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma_ex.h:
 ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h:
+../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dcmi.h:
 ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_exti.h:
 ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h:
 ../../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h:
@@ -81,3 +84,5 @@ Application/User/Core/main.o: \
 ../../../Middlewares/ST/AI/Inc/stai_debug.h:
 ../../../Middlewares/ST/AI/Inc/stai.h:
 ../../../CM7/AI/App/user_init.h:
+../../../CM7/Core/Inc/common.h:
+../../../CM7/Core/Inc/ov7670.h:
