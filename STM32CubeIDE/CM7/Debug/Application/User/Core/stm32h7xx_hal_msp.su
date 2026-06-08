@@ -1,3 +1,7 @@
-C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:62:6:HAL_MspInit	16	static
-C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:84:6:HAL_UART_MspInit	240	static
-C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:139:6:HAL_UART_MspDeInit	16	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:63:6:HAL_MspInit	16	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:85:6:HAL_DCMI_MspInit	64	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:185:6:HAL_DCMI_MspDeInit	16	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:236:6:HAL_I2C_MspInit	240	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:283:6:HAL_I2C_MspDeInit	16	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:314:6:HAL_UART_MspInit	240	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/Core/Src/stm32h7xx_hal_msp.c:369:6:HAL_UART_MspDeInit	16	static
