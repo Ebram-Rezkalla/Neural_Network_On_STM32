@@ -76,6 +76,14 @@ SECTIONS
     KEEP(*(.AI_RAM_D1))
     . = ALIGN(4);
 } >RAM_D1
+
+  /* start ram modifications*/
+.buffer (NOLOAD):
+{
+	. = ALIGN(4);
+    KEEP(*(.buffer))
+    . = ALIGN(4);
+} >RAM_D2
   /* The startup code into "FLASH" Rom type memory */
   .isr_vector :
   {

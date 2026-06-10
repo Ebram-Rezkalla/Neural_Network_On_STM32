@@ -25,6 +25,12 @@
 #include "common.h"
 #include "ov7670.h"
 #include <stdio.h>
+#include <string.h>
+#if defined ( __ICCARM__ )
+#define AI_RAM_D2   _Pragma("location=\".buffer\"")
+#elif defined ( __CC_ARM ) || ( __GNUC__ )
+#define AI_RAM_D2   __attribute__((section(".buffer")))
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -65,9 +71,11 @@ UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
 #define MAX_PICTURE_BUFF     38400
-#define DIMENSIONE_GRIGI     76800
-uint32_t* foto[MAX_PICTURE_BUFF];
-uint8_t buffer_grigi[DIMENSIONE_GRIGI];
+
+AI_RAM_D2 uint32_t foto[MAX_PICTURE_BUFF];
+volatile uint8_t avvia_gioco_flag = 0;
+AI_RAM_D2 uint8_t buffer_ai[STAI_NETWORK_IN_1_SIZE_BYTES];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -167,7 +175,7 @@ Error_Handler();
   MX_DCMI_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  // STM32CubeAI_Studio_AI_Init();
+  	STM32CubeAI_Studio_AI_Init();
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET); //Camera PWDN to GND
     // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); //LCD Backlight to 3V3
     ov7670_init(&hdcmi, &hdma_dcmi, &hi2c2);
@@ -176,34 +184,90 @@ Error_Handler();
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+    char msg_buffer[50];
+    int mossa_stm32;
+    int mossa_utente;
+    extern float mie_predizioni[3];
   while (1)
   {
-// STM32CubeAI_Studio_AI_Process();
-	  // 1. Avvia lo scatto singolo (Snapshot)
-	      ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)foto);
+	  if (avvia_gioco_flag == 1)
+	      {
+	          avvia_gioco_flag = 0;
 
-	      while(HAL_DCMI_GetState(&hdcmi) == HAL_DCMI_STATE_BUSY) {
-	              // Aspetta qui senza toccare registri
+	          HAL_UART_Transmit(&huart3, (uint8_t*)"INFO:Preparati...\r\n", 19, 100);
+	          HAL_Delay(300);
+	          HAL_UART_Transmit(&huart3, (uint8_t*)"COUNT:3\r\n", 9, 100);
+	          HAL_Delay(300);
+	          HAL_UART_Transmit(&huart3, (uint8_t*)"COUNT:2\r\n", 9, 100);
+	          HAL_Delay(300);
+	          HAL_UART_Transmit(&huart3, (uint8_t*)"COUNT:1\r\n", 9, 100);
+	          HAL_Delay(300);
+
+	          mossa_stm32 = HAL_GetTick() % 3;
+
+	          ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)foto);
+
+	          HAL_Delay(3000);
+
+	          uint8_t* pFotoBytes = (uint8_t*)foto;
+	          int indice_ai = 0;
+
+	          for (int riga_out = 0; riga_out < 128; riga_out++) {
+	              int riga_in = (riga_out * 240) / 128;
+	              for (int col_out = 0; col_out < 128; col_out++) {
+	                  int col_in = (col_out * 320) / 128;
+	                  int indice_pixel_originale = (riga_in * 320 + col_in) * 2;
+	                  buffer_ai[indice_ai] = pFotoBytes[indice_pixel_originale];
+	                  indice_ai++;
+	              }
 	          }
-	      // 3. Ora che il frame è statico e sicuro, avvertiamo Python
-	      HAL_UART_Transmit(&huart3, (uint8_t*)"*START*\r\n", 9, 100);
+	          SCB_CleanDCache_by_Addr((uint32_t*)buffer_ai, 16384);
 
-	      uint8_t* pFotoBytes = (uint8_t*)foto;
-	      int indice_grigi = 0;
+	          acquire_and_process_data();
+	          STM32CubeAI_Studio_AI_Process();
 
-	      // 4. Compattiamo in RAM
-	      for (int i = 0; i < 153600; i += 2) {
-	          buffer_grigi[indice_grigi] = pFotoBytes[i];
-	          indice_grigi++;
+	          float max_prob = -1.0f;
+	          mossa_utente = 0;
+
+	          for (int i = 0; i < 3; i++) {
+	              if (mie_predizioni[i] > max_prob) {
+	                  max_prob = mie_predizioni[i];
+	                  mossa_utente = i;
+	              }
+	          }
+
+	          sprintf(msg_buffer, "MOSSA_STM32:%d\r\n", mossa_stm32);
+	          HAL_UART_Transmit(&huart3, (uint8_t*)msg_buffer, strlen(msg_buffer), 100);
+
+	          sprintf(msg_buffer, "MOSSA_UTENTE:%d\r\n", mossa_utente);
+	          HAL_UART_Transmit(&huart3, (uint8_t*)msg_buffer, strlen(msg_buffer), 100);
+
+	                  if (mossa_utente == mossa_stm32) {
+	                      HAL_UART_Transmit(&huart3, (uint8_t*)"RISULTATO:PAREGGIO\r\n", 20, 100);
+	                  }
+	                  // CASI IN CUI VINCE L'UTENTE:
+	                  // - Utente mette Carta (0) e STM32 mette Sasso (1)
+	                  // - Utente mette Sasso (1) e STM32 mette Forbice (2)
+	                  // - Utente mette Forbice (2) e STM32 mette Carta (0)
+	                  else if ((mossa_utente == 0 && mossa_stm32 == 1) ||
+	                           (mossa_utente == 1 && mossa_stm32 == 2) ||
+	                           (mossa_utente == 2 && mossa_stm32 == 0)) {
+	                      HAL_UART_Transmit(&huart3, (uint8_t*)"RISULTATO:HAI VINTO TU!\r\n", 25, 100);
+	                  }
+	                  // In tutti gli altri casi vince il microcontrollore
+	                  else {
+	                      HAL_UART_Transmit(&huart3, (uint8_t*)"RISULTATO:HA VINTO L'STM32!\r\n", 29, 100);
+	                  }
+
+	          // 9. Invio della foto elaborata (128x128) a Python
+	          HAL_UART_Transmit(&huart3, (uint8_t*)"*START_FOTO*\r\n", 14, 100);
+	          for (int riga = 0; riga < 128; riga++) {
+	              uint8_t* puntatore_riga = &buffer_ai[riga * 128];
+	              HAL_UART_Transmit(&huart3, puntatore_riga, 128, 100);
+	              HAL_Delay(1);
+	          }
 	      }
-
-	      // 6. Invio a pacchetti riga per riga
-	      for (int riga = 0; riga < 240; riga++) {
-	          uint8_t* puntatore_riga = &buffer_grigi[riga * 320];
-	          HAL_UART_Transmit(&huart3, puntatore_riga, 320, 100);
-	          HAL_Delay(1);
-	      }
-	      HAL_Delay(100);
+	      HAL_Delay(10);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -468,7 +532,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    // Controlliamo se l'interrupt è stato generato proprio dal pin 13 (Pulsante Blu)
+    if(GPIO_Pin == GPIO_PIN_13)
+    {
+        // Alziamo il flag: il "treno" del gioco può partire nel main
+        avvia_gioco_flag = 1;
+    }
+}
 /* USER CODE END 4 */
 
  /* MPU Configuration */
