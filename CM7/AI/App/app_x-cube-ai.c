@@ -104,7 +104,7 @@ STAI_ALIGNED(32) static uint8_t states_1[4];
 stai_ptr data_states[] = {
     states_1
 };
-float mie_predizioni[3];
+float predictions[3];
 
 
 
@@ -226,9 +226,9 @@ int post_process()
 {
   /* USER CODE BEGIN post_process */
 	float *valori_output = (float*)stai_output[0];
-	mie_predizioni[0] = valori_output[0]; // Carta (paper)
-	    mie_predizioni[1] = valori_output[1]; // Sasso (rock)
-	    mie_predizioni[2] = valori_output[2]; // Forbice (scissors)
+	predictions[0] = valori_output[0]; // Carta (paper)
+	predictions[1] = valori_output[1]; // Sasso (rock)
+	predictions[2] = valori_output[2]; // Forbice (scissors)
   /* process the predictions
   for (int idx=0; idx < STAI_NETWORK_OUT_NUM; idx++ )
   {
@@ -274,6 +274,7 @@ void STM32CubeAI_Studio_AI_Init(void)
 
 void STM32CubeAI_Studio_AI_Process(void)
 {
+	acquire_and_process_data();
 	/* 2 - Call inference engine */
 	aiRun();
 	    /* 3 - Post-process the predictions */

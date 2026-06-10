@@ -28,8 +28,8 @@ static I2C_HandleTypeDef  *sp_hi2c;
 static uint32_t    s_destAddressForContiuousMode;
 static void (* s_cbHsync)(uint32_t h);
 static void (* s_cbVsync)(uint32_t v);
-static uint32_t s_currentH;
-static uint32_t s_currentV;
+// static uint32_t s_currentH;
+// static uint32_t s_currentV;
 
 /*** Internal Function Declarations ***/
 static RET ov7670_write(uint8_t regAddr, uint8_t data);
@@ -98,7 +98,7 @@ void ov7670_registerCallback(void (*cbHsync)(uint32_t h), void (*cbVsync)(uint32
   s_cbHsync = cbHsync;
   s_cbVsync = cbVsync;
 }
-
+/*
 void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 {
 //  printf("FRAME %d\n", HAL_GetTick());
@@ -109,7 +109,7 @@ void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
   s_currentV++;
   s_currentH = 0;
 }
-
+*/
 void HAL_DCMI_VsyncEventCallback(DCMI_HandleTypeDef *hdcmi)
 {
 //  printf("VSYNC %d\n", HAL_GetTick());

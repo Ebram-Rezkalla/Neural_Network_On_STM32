@@ -9,4 +9,4 @@ C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/AI/App/app
 C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/AI/App/app_x-cube-ai.c:248:6:main_loop	8	static
 C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/AI/App/app_x-cube-ai.c:267:6:STM32CubeAI_Studio_AI_Init	8	static
 C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/AI/App/app_x-cube-ai.c:275:6:STM32CubeAI_Studio_AI_Process	8	static
-C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/AI/App/app_x-cube-ai.c:283:6:STM32CubeAI_Studio_AI_Deinit	8	static
+C:/Users/eeebr/.stm32cubeaistudio/workspace/CartaForbiciSassoGame/CM7/AI/App/app_x-cube-ai.c:284:6:STM32CubeAI_Studio_AI_Deinit	8	static
