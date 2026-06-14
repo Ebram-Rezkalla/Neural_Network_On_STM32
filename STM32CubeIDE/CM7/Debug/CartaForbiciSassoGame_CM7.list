@@ -490,7 +490,7 @@ __STATIC_FORCEINLINE void SCB_EnableICache (void)
 {
   #if defined (__ICACHE_PRESENT) && (__ICACHE_PRESENT == 1U)
     if (SCB->CCR & SCB_CCR_IC_Msk) return;  /* return if ICache is already enabled */
- 8000706:	4b8b      	ldr	r3, [pc, #556]	@ (8000934 <main+0x238>)
+ 8000706:	4b8c      	ldr	r3, [pc, #560]	@ (8000938 <main+0x23c>)
  8000708:	695b      	ldr	r3, [r3, #20]
  800070a:	f403 3300 	and.w	r3, r3, #131072	@ 0x20000
  800070e:	2b00      	cmp	r3, #0
@@ -512,7 +512,7 @@ __STATIC_FORCEINLINE void __DSB(void)
     __DSB();
     __ISB();
     SCB->ICIALLU = 0UL;                     /* invalidate I-Cache */
- 800071e:	4b85      	ldr	r3, [pc, #532]	@ (8000934 <main+0x238>)
+ 800071e:	4b86      	ldr	r3, [pc, #536]	@ (8000938 <main+0x23c>)
  8000720:	2200      	movs	r2, #0
  8000722:	f8c3 2250 	str.w	r2, [r3, #592]	@ 0x250
   __ASM volatile ("dsb 0xF":::"memory");
@@ -526,9 +526,9 @@ __STATIC_FORCEINLINE void __DSB(void)
     __DSB();
     __ISB();
     SCB->CCR |=  (uint32_t)SCB_CCR_IC_Msk;  /* enable I-Cache */
- 8000732:	4b80      	ldr	r3, [pc, #512]	@ (8000934 <main+0x238>)
+ 8000732:	4b81      	ldr	r3, [pc, #516]	@ (8000938 <main+0x23c>)
  8000734:	695b      	ldr	r3, [r3, #20]
- 8000736:	4a7f      	ldr	r2, [pc, #508]	@ (8000934 <main+0x238>)
+ 8000736:	4a80      	ldr	r2, [pc, #512]	@ (8000938 <main+0x23c>)
  8000738:	f443 3300 	orr.w	r3, r3, #131072	@ 0x20000
  800073c:	6153      	str	r3, [r2, #20]
   __ASM volatile ("dsb 0xF":::"memory");
@@ -547,14 +547,14 @@ __STATIC_FORCEINLINE void __DSB(void)
     uint32_t ways;
 
     if (SCB->CCR & SCB_CCR_DC_Msk) return;  /* return if DCache is already enabled */
- 800074c:	4b79      	ldr	r3, [pc, #484]	@ (8000934 <main+0x238>)
+ 800074c:	4b7a      	ldr	r3, [pc, #488]	@ (8000938 <main+0x23c>)
  800074e:	695b      	ldr	r3, [r3, #20]
  8000750:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
  8000754:	2b00      	cmp	r3, #0
  8000756:	d138      	bne.n	80007ca <main+0xce>
 
     SCB->CSSELR = 0U;                       /* select Level 1 data cache */
- 8000758:	4b76      	ldr	r3, [pc, #472]	@ (8000934 <main+0x238>)
+ 8000758:	4b77      	ldr	r3, [pc, #476]	@ (8000938 <main+0x23c>)
  800075a:	2200      	movs	r2, #0
  800075c:	f8c3 2084 	str.w	r2, [r3, #132]	@ 0x84
   __ASM volatile ("dsb 0xF":::"memory");
@@ -564,7 +564,7 @@ __STATIC_FORCEINLINE void __DSB(void)
     __DSB();
 
     ccsidr = SCB->CCSIDR;
- 8000766:	4b73      	ldr	r3, [pc, #460]	@ (8000934 <main+0x238>)
+ 8000766:	4b74      	ldr	r3, [pc, #464]	@ (8000938 <main+0x23c>)
  8000768:	f8d3 3080 	ldr.w	r3, [r3, #128]	@ 0x80
  800076c:	613b      	str	r3, [r7, #16]
 
@@ -590,7 +590,7 @@ __STATIC_FORCEINLINE void __DSB(void)
  800078c:	68ba      	ldr	r2, [r7, #8]
  800078e:	0792      	lsls	r2, r2, #30
         SCB->DCISW = (((sets << SCB_DCISW_SET_Pos) & SCB_DCISW_SET_Msk) |
- 8000790:	4968      	ldr	r1, [pc, #416]	@ (8000934 <main+0x238>)
+ 8000790:	4969      	ldr	r1, [pc, #420]	@ (8000938 <main+0x23c>)
  8000792:	4313      	orrs	r3, r2
  8000794:	f8c1 3260 	str.w	r3, [r1, #608]	@ 0x260
         #if defined ( __CC_ARM )
@@ -615,9 +615,9 @@ __STATIC_FORCEINLINE void __DSB(void)
     __DSB();
 
     SCB->CCR |=  (uint32_t)SCB_CCR_DC_Msk;  /* enable D-Cache */
- 80007b2:	4b60      	ldr	r3, [pc, #384]	@ (8000934 <main+0x238>)
+ 80007b2:	4b61      	ldr	r3, [pc, #388]	@ (8000938 <main+0x23c>)
  80007b4:	695b      	ldr	r3, [r3, #20]
- 80007b6:	4a5f      	ldr	r2, [pc, #380]	@ (8000934 <main+0x238>)
+ 80007b6:	4a60      	ldr	r2, [pc, #384]	@ (8000938 <main+0x23c>)
  80007b8:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
  80007bc:	6153      	str	r3, [r2, #20]
   __ASM volatile ("dsb 0xF":::"memory");
@@ -640,7 +640,7 @@ __STATIC_FORCEINLINE void __DSB(void)
  80007d0:	61fb      	str	r3, [r7, #28]
   while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
  80007d2:	bf00      	nop
- 80007d4:	4b58      	ldr	r3, [pc, #352]	@ (8000938 <main+0x23c>)
+ 80007d4:	4b59      	ldr	r3, [pc, #356]	@ (800093c <main+0x240>)
  80007d6:	681b      	ldr	r3, [r3, #0]
  80007d8:	f403 4300 	and.w	r3, r3, #32768	@ 0x8000
  80007dc:	2b00      	cmp	r3, #0
@@ -677,12 +677,12 @@ __STATIC_FORCEINLINE void __DSB(void)
 HSEM notification */
 /*HW semaphore Clock enable*/
 __HAL_RCC_HSEM_CLK_ENABLE();
- 80007fc:	4b4e      	ldr	r3, [pc, #312]	@ (8000938 <main+0x23c>)
+ 80007fc:	4b4f      	ldr	r3, [pc, #316]	@ (800093c <main+0x240>)
  80007fe:	f8d3 30e0 	ldr.w	r3, [r3, #224]	@ 0xe0
- 8000802:	4a4d      	ldr	r2, [pc, #308]	@ (8000938 <main+0x23c>)
+ 8000802:	4a4e      	ldr	r2, [pc, #312]	@ (800093c <main+0x240>)
  8000804:	f043 7300 	orr.w	r3, r3, #33554432	@ 0x2000000
  8000808:	f8c2 30e0 	str.w	r3, [r2, #224]	@ 0xe0
- 800080c:	4b4a      	ldr	r3, [pc, #296]	@ (8000938 <main+0x23c>)
+ 800080c:	4b4b      	ldr	r3, [pc, #300]	@ (800093c <main+0x240>)
  800080e:	f8d3 30e0 	ldr.w	r3, [r3, #224]	@ 0xe0
  8000812:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
  8000816:	607b      	str	r3, [r7, #4]
@@ -702,7 +702,7 @@ timeout = 0xFFFF;
  800082c:	61fb      	str	r3, [r7, #28]
 while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) == RESET) && (timeout-- > 0));
  800082e:	bf00      	nop
- 8000830:	4b41      	ldr	r3, [pc, #260]	@ (8000938 <main+0x23c>)
+ 8000830:	4b42      	ldr	r3, [pc, #264]	@ (800093c <main+0x240>)
  8000832:	681b      	ldr	r3, [r3, #0]
  8000834:	f403 4300 	and.w	r3, r3, #32768	@ 0x8000
  8000838:	2b00      	cmp	r3, #0
@@ -740,12 +740,12 @@ Error_Handler();
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET); //Camera PWDN to GND
  8000868:	2200      	movs	r2, #0
  800086a:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
- 800086e:	4833      	ldr	r0, [pc, #204]	@ (800093c <main+0x240>)
+ 800086e:	4834      	ldr	r0, [pc, #208]	@ (8000940 <main+0x244>)
  8000870:	f00c fbd2 	bl	800d018 <HAL_GPIO_WritePin>
     ov7670_init(&hdcmi, &hdma_dcmi, &hi2c2);
- 8000874:	4a32      	ldr	r2, [pc, #200]	@ (8000940 <main+0x244>)
- 8000876:	4933      	ldr	r1, [pc, #204]	@ (8000944 <main+0x248>)
- 8000878:	4833      	ldr	r0, [pc, #204]	@ (8000948 <main+0x24c>)
+ 8000874:	4a33      	ldr	r2, [pc, #204]	@ (8000944 <main+0x248>)
+ 8000876:	4934      	ldr	r1, [pc, #208]	@ (8000948 <main+0x24c>)
+ 8000878:	4834      	ldr	r0, [pc, #208]	@ (800094c <main+0x250>)
  800087a:	f000 fc2f 	bl	80010dc <ov7670_init>
     ov7670_config(OV7670_MODE_QVGA_YUV);
  800087e:	2001      	movs	r0, #1
@@ -756,14 +756,14 @@ Error_Handler();
   while (1)
   {
 	  if (start_game_flag == 1)
- 8000884:	4b31      	ldr	r3, [pc, #196]	@ (800094c <main+0x250>)
+ 8000884:	4b32      	ldr	r3, [pc, #200]	@ (8000950 <main+0x254>)
  8000886:	781b      	ldrb	r3, [r3, #0]
  8000888:	b2db      	uxtb	r3, r3
  800088a:	2b01      	cmp	r3, #1
  800088c:	d116      	bne.n	80008bc <main+0x1c0>
 	        {
 		  	  	start_game_flag = 0;
- 800088e:	4b2f      	ldr	r3, [pc, #188]	@ (800094c <main+0x250>)
+ 800088e:	4b30      	ldr	r3, [pc, #192]	@ (8000950 <main+0x254>)
  8000890:	2200      	movs	r2, #0
  8000892:	701a      	strb	r2, [r3, #0]
 
@@ -773,32 +773,32 @@ Error_Handler();
 	            stm32_move = HAL_GetTick() % 3;
  8000898:	f008 fa72 	bl	8008d80 <HAL_GetTick>
  800089c:	4601      	mov	r1, r0
- 800089e:	4b2c      	ldr	r3, [pc, #176]	@ (8000950 <main+0x254>)
+ 800089e:	4b2d      	ldr	r3, [pc, #180]	@ (8000954 <main+0x258>)
  80008a0:	fba3 2301 	umull	r2, r3, r3, r1
  80008a4:	085a      	lsrs	r2, r3, #1
  80008a6:	4613      	mov	r3, r2
  80008a8:	005b      	lsls	r3, r3, #1
  80008aa:	4413      	add	r3, r2
  80008ac:	1aca      	subs	r2, r1, r3
- 80008ae:	4b29      	ldr	r3, [pc, #164]	@ (8000954 <main+0x258>)
+ 80008ae:	4b2a      	ldr	r3, [pc, #168]	@ (8000958 <main+0x25c>)
  80008b0:	601a      	str	r2, [r3, #0]
 
 	            ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)picture);
- 80008b2:	4b29      	ldr	r3, [pc, #164]	@ (8000958 <main+0x25c>)
+ 80008b2:	4b2a      	ldr	r3, [pc, #168]	@ (800095c <main+0x260>)
  80008b4:	4619      	mov	r1, r3
  80008b6:	2001      	movs	r0, #1
  80008b8:	f000 fc88 	bl	80011cc <ov7670_startCap>
 	        }
 
 	        if (data_ready_flag == 1)
- 80008bc:	4b27      	ldr	r3, [pc, #156]	@ (800095c <main+0x260>)
+ 80008bc:	4b28      	ldr	r3, [pc, #160]	@ (8000960 <main+0x264>)
  80008be:	781b      	ldrb	r3, [r3, #0]
  80008c0:	b2db      	uxtb	r3, r3
  80008c2:	2b01      	cmp	r3, #1
- 80008c4:	d132      	bne.n	800092c <main+0x230>
+ 80008c4:	d133      	bne.n	800092e <main+0x232>
 	        {
 	            data_ready_flag = 0;
- 80008c6:	4b25      	ldr	r3, [pc, #148]	@ (800095c <main+0x260>)
+ 80008c6:	4b26      	ldr	r3, [pc, #152]	@ (8000960 <main+0x264>)
  80008c8:	2200      	movs	r2, #0
  80008ca:	701a      	strb	r2, [r3, #0]
 
@@ -808,77 +808,78 @@ Error_Handler();
 	            STM32CubeAI_Studio_AI_Process();
  80008d0:	f001 f9cc 	bl	8001c6c <STM32CubeAI_Studio_AI_Process>
 
-	            float max_prob = -1.0f;
- 80008d4:	4b22      	ldr	r3, [pc, #136]	@ (8000960 <main+0x264>)
- 80008d6:	61bb      	str	r3, [r7, #24]
-	            user_move = 0; // Global variable
- 80008d8:	4b22      	ldr	r3, [pc, #136]	@ (8000964 <main+0x268>)
- 80008da:	2200      	movs	r2, #0
- 80008dc:	601a      	str	r2, [r3, #0]
-	            for (int i = 0; i < 3; i++) {
- 80008de:	2300      	movs	r3, #0
- 80008e0:	617b      	str	r3, [r7, #20]
- 80008e2:	e018      	b.n	8000916 <main+0x21a>
-	            	if (predictions[i] > max_prob) {
- 80008e4:	4a20      	ldr	r2, [pc, #128]	@ (8000968 <main+0x26c>)
- 80008e6:	697b      	ldr	r3, [r7, #20]
- 80008e8:	009b      	lsls	r3, r3, #2
- 80008ea:	4413      	add	r3, r2
- 80008ec:	edd3 7a00 	vldr	s15, [r3]
- 80008f0:	ed97 7a06 	vldr	s14, [r7, #24]
- 80008f4:	eeb4 7ae7 	vcmpe.f32	s14, s15
- 80008f8:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 80008fc:	d508      	bpl.n	8000910 <main+0x214>
-	            		max_prob = predictions[i];
- 80008fe:	4a1a      	ldr	r2, [pc, #104]	@ (8000968 <main+0x26c>)
- 8000900:	697b      	ldr	r3, [r7, #20]
- 8000902:	009b      	lsls	r3, r3, #2
- 8000904:	4413      	add	r3, r2
- 8000906:	681b      	ldr	r3, [r3, #0]
- 8000908:	61bb      	str	r3, [r7, #24]
+	            float max_prob = predictions[0];
+ 80008d4:	4b23      	ldr	r3, [pc, #140]	@ (8000964 <main+0x268>)
+ 80008d6:	681b      	ldr	r3, [r3, #0]
+ 80008d8:	61bb      	str	r3, [r7, #24]
+	            user_move = 0;
+ 80008da:	4b23      	ldr	r3, [pc, #140]	@ (8000968 <main+0x26c>)
+ 80008dc:	2200      	movs	r2, #0
+ 80008de:	601a      	str	r2, [r3, #0]
+	            for (int i = 1; i < 3; i++) {
+ 80008e0:	2301      	movs	r3, #1
+ 80008e2:	617b      	str	r3, [r7, #20]
+ 80008e4:	e018      	b.n	8000918 <main+0x21c>
+	                if (predictions[i] > max_prob) {
+ 80008e6:	4a1f      	ldr	r2, [pc, #124]	@ (8000964 <main+0x268>)
+ 80008e8:	697b      	ldr	r3, [r7, #20]
+ 80008ea:	009b      	lsls	r3, r3, #2
+ 80008ec:	4413      	add	r3, r2
+ 80008ee:	edd3 7a00 	vldr	s15, [r3]
+ 80008f2:	ed97 7a06 	vldr	s14, [r7, #24]
+ 80008f6:	eeb4 7ae7 	vcmpe.f32	s14, s15
+ 80008fa:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 80008fe:	d508      	bpl.n	8000912 <main+0x216>
+	                    max_prob = predictions[i];
+ 8000900:	4a18      	ldr	r2, [pc, #96]	@ (8000964 <main+0x268>)
+ 8000902:	697b      	ldr	r3, [r7, #20]
+ 8000904:	009b      	lsls	r3, r3, #2
+ 8000906:	4413      	add	r3, r2
+ 8000908:	681b      	ldr	r3, [r3, #0]
+ 800090a:	61bb      	str	r3, [r7, #24]
 	                    user_move = i;
- 800090a:	4a16      	ldr	r2, [pc, #88]	@ (8000964 <main+0x268>)
- 800090c:	697b      	ldr	r3, [r7, #20]
- 800090e:	6013      	str	r3, [r2, #0]
-	            for (int i = 0; i < 3; i++) {
- 8000910:	697b      	ldr	r3, [r7, #20]
- 8000912:	3301      	adds	r3, #1
- 8000914:	617b      	str	r3, [r7, #20]
- 8000916:	697b      	ldr	r3, [r7, #20]
- 8000918:	2b02      	cmp	r3, #2
- 800091a:	dde3      	ble.n	80008e4 <main+0x1e8>
-	            	}
+ 800090c:	4a16      	ldr	r2, [pc, #88]	@ (8000968 <main+0x26c>)
+ 800090e:	697b      	ldr	r3, [r7, #20]
+ 8000910:	6013      	str	r3, [r2, #0]
+	            for (int i = 1; i < 3; i++) {
+ 8000912:	697b      	ldr	r3, [r7, #20]
+ 8000914:	3301      	adds	r3, #1
+ 8000916:	617b      	str	r3, [r7, #20]
+ 8000918:	697b      	ldr	r3, [r7, #20]
+ 800091a:	2b02      	cmp	r3, #2
+ 800091c:	dde3      	ble.n	80008e6 <main+0x1ea>
+	                }
 	            }
 
 	            Send_Data_To_PC(stm32_move, user_move);
- 800091c:	4b0d      	ldr	r3, [pc, #52]	@ (8000954 <main+0x258>)
- 800091e:	681b      	ldr	r3, [r3, #0]
- 8000920:	4a10      	ldr	r2, [pc, #64]	@ (8000964 <main+0x268>)
- 8000922:	6812      	ldr	r2, [r2, #0]
- 8000924:	4611      	mov	r1, r2
- 8000926:	4618      	mov	r0, r3
- 8000928:	f000 fb1c 	bl	8000f64 <Send_Data_To_PC>
+ 800091e:	4b0e      	ldr	r3, [pc, #56]	@ (8000958 <main+0x25c>)
+ 8000920:	681b      	ldr	r3, [r3, #0]
+ 8000922:	4a11      	ldr	r2, [pc, #68]	@ (8000968 <main+0x26c>)
+ 8000924:	6812      	ldr	r2, [r2, #0]
+ 8000926:	4611      	mov	r1, r2
+ 8000928:	4618      	mov	r0, r3
+ 800092a:	f000 fb1b 	bl	8000f64 <Send_Data_To_PC>
 	        }
 
 	        HAL_Delay(10);
- 800092c:	200a      	movs	r0, #10
- 800092e:	f008 fa33 	bl	8008d98 <HAL_Delay>
+ 800092e:	200a      	movs	r0, #10
+ 8000930:	f008 fa32 	bl	8008d98 <HAL_Delay>
 	  if (start_game_flag == 1)
- 8000932:	e7a7      	b.n	8000884 <main+0x188>
- 8000934:	e000ed00 	.word	0xe000ed00
- 8000938:	58024400 	.word	0x58024400
- 800093c:	58020c00 	.word	0x58020c00
- 8000940:	2403900c 	.word	0x2403900c
- 8000944:	24038f94 	.word	0x24038f94
- 8000948:	24038f44 	.word	0x24038f44
- 800094c:	240390f4 	.word	0x240390f4
- 8000950:	aaaaaaab 	.word	0xaaaaaaab
- 8000954:	240390f8 	.word	0x240390f8
- 8000958:	30000000 	.word	0x30000000
- 800095c:	240390f5 	.word	0x240390f5
- 8000960:	bf800000 	.word	0xbf800000
- 8000964:	240390fc 	.word	0x240390fc
- 8000968:	24039150 	.word	0x24039150
+ 8000934:	e7a6      	b.n	8000884 <main+0x188>
+ 8000936:	bf00      	nop
+ 8000938:	e000ed00 	.word	0xe000ed00
+ 800093c:	58024400 	.word	0x58024400
+ 8000940:	58020c00 	.word	0x58020c00
+ 8000944:	2403900c 	.word	0x2403900c
+ 8000948:	24038f94 	.word	0x24038f94
+ 800094c:	24038f44 	.word	0x24038f44
+ 8000950:	240390f4 	.word	0x240390f4
+ 8000954:	aaaaaaab 	.word	0xaaaaaaab
+ 8000958:	240390f8 	.word	0x240390f8
+ 800095c:	30000000 	.word	0x30000000
+ 8000960:	240390f5 	.word	0x240390f5
+ 8000964:	24039150 	.word	0x24039150
+ 8000968:	240390fc 	.word	0x240390fc
 
 0800096c <SystemClock_Config>:
 /**
@@ -1973,7 +1974,7 @@ void Send_Data_To_PC(int cpu_move, int player_move)
  8000ff2:	687b      	ldr	r3, [r7, #4]
  8000ff4:	2b00      	cmp	r3, #0
  8000ff6:	d106      	bne.n	8001006 <Send_Data_To_PC+0xa2>
-        HAL_UART_Transmit(&huart3, (uint8_t*)"RISULTATO:YOU WIN!\r\n", 20, 100);
+        HAL_UART_Transmit(&huart3, (uint8_t*)"RESULT:YOU WIN!\r\n", 20, 100);
  8000ff8:	2364      	movs	r3, #100	@ 0x64
  8000ffa:	2214      	movs	r2, #20
  8000ffc:	491a      	ldr	r1, [pc, #104]	@ (8001068 <Send_Data_To_PC+0x104>)
@@ -1983,7 +1984,7 @@ void Send_Data_To_PC(int cpu_move, int player_move)
     }
     // Any other case results in a CPU win
     else {
-        HAL_UART_Transmit(&huart3, (uint8_t*)"RISULTATO:STM32 WINS!\r\n", 23, 100);
+        HAL_UART_Transmit(&huart3, (uint8_t*)"RESULT:STM32 WINS!\r\n", 23, 100);
  8001006:	2364      	movs	r3, #100	@ 0x64
  8001008:	2217      	movs	r2, #23
  800100a:	4918      	ldr	r1, [pc, #96]	@ (800106c <Send_Data_To_PC+0x108>)
@@ -2037,8 +2038,8 @@ void Send_Data_To_PC(int cpu_move, int player_move)
  8001060:	08019abc 	.word	0x08019abc
  8001064:	08019acc 	.word	0x08019acc
  8001068:	08019adc 	.word	0x08019adc
- 800106c:	08019af4 	.word	0x08019af4
- 8001070:	08019b0c 	.word	0x08019b0c
+ 800106c:	08019af0 	.word	0x08019af0
+ 8001070:	08019b08 	.word	0x08019b08
  8001074:	30025800 	.word	0x30025800
 
 08001078 <MPU_Config>:
@@ -2220,7 +2221,7 @@ RET ov7670_init(DCMI_HandleTypeDef *p_hdcmi, DMA_HandleTypeDef *p_hdma_dcmi, I2C
  800115c:	24039108 	.word	0x24039108
  8001160:	2403910c 	.word	0x2403910c
  8001164:	58020c00 	.word	0x58020c00
- 8001168:	08019b1c 	.word	0x08019b1c
+ 8001168:	08019b18 	.word	0x08019b18
 
 0800116c <ov7670_config>:
 
@@ -2275,7 +2276,7 @@ RET ov7670_config(uint32_t mode)
  80011c2:	3710      	adds	r7, #16
  80011c4:	46bd      	mov	sp, r7
  80011c6:	bd80      	pop	{r7, pc}
- 80011c8:	08019e80 	.word	0x08019e80
+ 80011c8:	08019e7c 	.word	0x08019e7c
 
 080011cc <ov7670_startCap>:
 
@@ -6382,10 +6383,10 @@ stai_return_code stai_network_run(
  8002ee4:	00010fb0 	.word	0x00010fb0
  8002ee8:	3f7ffd5d 	.word	0x3f7ffd5d
  8002eec:	3f34e384 	.word	0x3f34e384
- 8002ef0:	0801a114 	.word	0x0801a114
+ 8002ef0:	0801a110 	.word	0x0801a110
  8002ef4:	00010e34 	.word	0x00010e34
  8002ef8:	3cc0c0c1 	.word	0x3cc0c0c1
- 8002efc:	0801a120 	.word	0x0801a120
+ 8002efc:	0801a11c 	.word	0x0801a11c
  8002f00:	60bb      	str	r3, [r7, #8]
  8002f02:	f8d7 3b20 	ldr.w	r3, [r7, #2848]	@ 0xb20
  8002f06:	9310      	str	r3, [sp, #64]	@ 0x40
@@ -6704,10 +6705,10 @@ stai_return_code stai_network_run(
  8003242:	4798      	blx	r3
  8003244:	e00a      	b.n	800325c <stai_network_run+0x98c>
  8003246:	bf00      	nop
- 8003248:	0801a160 	.word	0x0801a160
+ 8003248:	0801a15c 	.word	0x0801a15c
  800324c:	3efecc03 	.word	0x3efecc03
- 8003250:	0801a1a0 	.word	0x0801a1a0
- 8003254:	0801a1c0 	.word	0x0801a1c0
+ 8003250:	0801a19c 	.word	0x0801a19c
+ 8003254:	0801a1bc 	.word	0x0801a1bc
  8003258:	3cc0c0c1 	.word	0x3cc0c0c1
   }
   /* LITE_KERNEL_SECTION END conv2d_4 */
@@ -7091,14 +7092,14 @@ stai_return_code stai_network_run(
  8003632:	2b00      	cmp	r3, #0
  8003634:	d034      	beq.n	80036a0 <stai_network_run+0xdd0>
  8003636:	e00f      	b.n	8003658 <stai_network_run+0xd88>
- 8003638:	0801a280 	.word	0x0801a280
+ 8003638:	0801a27c 	.word	0x0801a27c
  800363c:	000139d0 	.word	0x000139d0
  8003640:	3cc0c0c1 	.word	0x3cc0c0c1
  8003644:	3eb18878 	.word	0x3eb18878
- 8003648:	0801a340 	.word	0x0801a340
+ 8003648:	0801a33c 	.word	0x0801a33c
  800364c:	0002be00 	.word	0x0002be00
  8003650:	00037e00 	.word	0x00037e00
- 8003654:	0801a360 	.word	0x0801a360
+ 8003654:	0801a35c 	.word	0x0801a35c
  8003658:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  800365c:	f5a3 63ac 	sub.w	r3, r3, #1376	@ 0x560
  8003660:	2207      	movs	r2, #7
@@ -7403,9 +7404,9 @@ stai_return_code stai_network_run(
  8003976:	e00d      	b.n	8003994 <stai_network_run+0x10c4>
  8003978:	0002be00 	.word	0x0002be00
  800397c:	000159d0 	.word	0x000159d0
- 8003980:	0801a420 	.word	0x0801a420
+ 8003980:	0801a41c 	.word	0x0801a41c
  8003984:	3f2b25a8 	.word	0x3f2b25a8
- 8003988:	0801a4e0 	.word	0x0801a4e0
+ 8003988:	0801a4dc 	.word	0x0801a4dc
  800398c:	3f21711f 	.word	0x3f21711f
  8003990:	3cc0c0c1 	.word	0x3cc0c0c1
   }
@@ -7800,13 +7801,13 @@ stai_return_code stai_network_run(
  8003d82:	681b      	ldr	r3, [r3, #0]
  8003d84:	9304      	str	r3, [sp, #16]
  8003d86:	e00d      	b.n	8003da4 <stai_network_run+0x14d4>
- 8003d88:	0801a500 	.word	0x0801a500
+ 8003d88:	0801a4fc 	.word	0x0801a4fc
  8003d8c:	0002bcd0 	.word	0x0002bcd0
  8003d90:	3cc0c0c1 	.word	0x3cc0c0c1
- 8003d94:	0801a5c0 	.word	0x0801a5c0
+ 8003d94:	0801a5bc 	.word	0x0801a5bc
  8003d98:	0002bbd0 	.word	0x0002bbd0
  8003d9c:	3e989793 	.word	0x3e989793
- 8003da0:	0801a680 	.word	0x0801a680
+ 8003da0:	0801a67c 	.word	0x0801a67c
  8003da4:	9403      	str	r4, [sp, #12]
  8003da6:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8003daa:	f5a3 7382 	sub.w	r3, r3, #260	@ 0x104
@@ -8160,10 +8161,10 @@ stai_return_code stai_network_run(
  800413c:	0002b7d0 	.word	0x0002b7d0
  8004140:	3e989793 	.word	0x3e989793
  8004144:	3cc0c0c1 	.word	0x3cc0c0c1
- 8004148:	0801a6c0 	.word	0x0801a6c0
+ 8004148:	0801a6bc 	.word	0x0801a6bc
  800414c:	0002cbd0 	.word	0x0002cbd0
  8004150:	0003721c 	.word	0x0003721c
- 8004154:	0801a840 	.word	0x0801a840
+ 8004154:	0801a83c 	.word	0x0801a83c
  8004158:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  800415c:	f5a3 63c8 	sub.w	r3, r3, #1600	@ 0x640
  8004160:	220f      	movs	r2, #15
@@ -8493,9 +8494,9 @@ stai_return_code stai_network_run(
  80044b4:	0002b9b0 	.word	0x0002b9b0
  80044b8:	3cc0c0c1 	.word	0x3cc0c0c1
  80044bc:	3eab78bb 	.word	0x3eab78bb
- 80044c0:	0801a9c0 	.word	0x0801a9c0
+ 80044c0:	0801a9bc 	.word	0x0801a9bc
  80044c4:	0002abd0 	.word	0x0002abd0
- 80044c8:	0801aa00 	.word	0x0801aa00
+ 80044c8:	0801a9fc 	.word	0x0801a9fc
  80044cc:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  80044d0:	f5a3 63d0 	sub.w	r3, r3, #1664	@ 0x680
  80044d4:	2212      	movs	r2, #18
@@ -8830,11 +8831,11 @@ stai_return_code stai_network_run(
  8004838:	00030f40 	.word	0x00030f40
  800483c:	00029dec 	.word	0x00029dec
  8004840:	3cc0c0c1 	.word	0x3cc0c0c1
- 8004844:	0801ab80 	.word	0x0801ab80
+ 8004844:	0801ab7c 	.word	0x0801ab7c
  8004848:	0002fd20 	.word	0x0002fd20
  800484c:	00030d20 	.word	0x00030d20
  8004850:	3ec68dc4 	.word	0x3ec68dc4
- 8004854:	0801ad00 	.word	0x0801ad00
+ 8004854:	0801acfc 	.word	0x0801acfc
  8004858:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  800485c:	f5a3 63d8 	sub.w	r3, r3, #1728	@ 0x6c0
  8004860:	2214      	movs	r2, #20
@@ -9180,10 +9181,10 @@ stai_return_code stai_network_run(
  8004bd4:	000255d0 	.word	0x000255d0
  8004bd8:	3ec68dc4 	.word	0x3ec68dc4
  8004bdc:	3cc0c0c1 	.word	0x3cc0c0c1
- 8004be0:	0801ad40 	.word	0x0801ad40
+ 8004be0:	0801ad3c 	.word	0x0801ad3c
  8004be4:	00025270 	.word	0x00025270
  8004be8:	0003721c 	.word	0x0003721c
- 8004bec:	0801aec0 	.word	0x0801aec0
+ 8004bec:	0801aebc 	.word	0x0801aebc
  8004bf0:	d026      	beq.n	8004c40 <stai_network_run+0x2370>
  8004bf2:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8004bf6:	f5a3 63e0 	sub.w	r3, r3, #1792	@ 0x700
@@ -9503,9 +9504,9 @@ stai_return_code stai_network_run(
  8004f3c:	00037d90 	.word	0x00037d90
  8004f40:	3cc0c0c1 	.word	0x3cc0c0c1
  8004f44:	3e787a17 	.word	0x3e787a17
- 8004f48:	0801b040 	.word	0x0801b040
+ 8004f48:	0801b03c 	.word	0x0801b03c
  8004f4c:	00037a00 	.word	0x00037a00
- 8004f50:	0801b0a0 	.word	0x0801b0a0
+ 8004f50:	0801b09c 	.word	0x0801b09c
  8004f54:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8004f58:	f5a3 63e8 	sub.w	r3, r3, #1856	@ 0x740
  8004f5c:	2219      	movs	r2, #25
@@ -9842,11 +9843,11 @@ stai_return_code stai_network_run(
  80052c0:	00025270 	.word	0x00025270
  80052c4:	00036b2c 	.word	0x00036b2c
  80052c8:	3cc0c0c1 	.word	0x3cc0c0c1
- 80052cc:	0801b2e0 	.word	0x0801b2e0
+ 80052cc:	0801b2dc 	.word	0x0801b2dc
  80052d0:	00027670 	.word	0x00027670
  80052d4:	00037cd0 	.word	0x00037cd0
  80052d8:	3e7c03e4 	.word	0x3e7c03e4
- 80052dc:	0801b520 	.word	0x0801b520
+ 80052dc:	0801b51c 	.word	0x0801b51c
  80052e0:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  80052e4:	f5a3 63f0 	sub.w	r3, r3, #1920	@ 0x780
  80052e8:	221b      	movs	r2, #27
@@ -10192,11 +10193,11 @@ stai_return_code stai_network_run(
  800565c:	00025270 	.word	0x00025270
  8005660:	3e7c03e4 	.word	0x3e7c03e4
  8005664:	3cc0c0c1 	.word	0x3cc0c0c1
- 8005668:	0801b580 	.word	0x0801b580
+ 8005668:	0801b57c 	.word	0x0801b57c
  800566c:	0003232c 	.word	0x0003232c
  8005670:	0003472c 	.word	0x0003472c
  8005674:	3cbc8dfc 	.word	0x3cbc8dfc
- 8005678:	0801b7c0 	.word	0x0801b7c0
+ 8005678:	0801b7bc 	.word	0x0801b7bc
  800567c:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8005680:	f5a3 63f8 	sub.w	r3, r3, #1984	@ 0x7c0
  8005684:	221e      	movs	r2, #30
@@ -10520,10 +10521,10 @@ stai_return_code stai_network_run(
  80059c8:	00024670 	.word	0x00024670
  80059cc:	3cbc8dfc 	.word	0x3cbc8dfc
  80059d0:	3e78f9a4 	.word	0x3e78f9a4
- 80059d4:	0801ba00 	.word	0x0801ba00
+ 80059d4:	0801b9fc 	.word	0x0801b9fc
  80059d8:	00024c70 	.word	0x00024c70
  80059dc:	3cc0c0c1 	.word	0x3cc0c0c1
- 80059e0:	0801ba60 	.word	0x0801ba60
+ 80059e0:	0801ba5c 	.word	0x0801ba5c
  80059e4:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  80059e8:	f5a3 6300 	sub.w	r3, r3, #2048	@ 0x800
  80059ec:	2221      	movs	r2, #33	@ 0x21
@@ -10860,10 +10861,10 @@ stai_return_code stai_network_run(
  8005d54:	0003472c 	.word	0x0003472c
  8005d58:	3cc0c0c1 	.word	0x3cc0c0c1
  8005d5c:	3cba6332 	.word	0x3cba6332
- 8005d60:	0801bca0 	.word	0x0801bca0
+ 8005d60:	0801bc9c 	.word	0x0801bc9c
  8005d64:	00024670 	.word	0x00024670
  8005d68:	3e8148e9 	.word	0x3e8148e9
- 8005d6c:	0801bee0 	.word	0x0801bee0
+ 8005d6c:	0801bedc 	.word	0x0801bedc
  8005d70:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8005d74:	f5a3 6304 	sub.w	r3, r3, #2112	@ 0x840
  8005d78:	2223      	movs	r2, #35	@ 0x23
@@ -11212,10 +11213,10 @@ stai_return_code stai_network_run(
  80060f0:	00024670 	.word	0x00024670
  80060f4:	3e8148e9 	.word	0x3e8148e9
  80060f8:	3cc0c0c1 	.word	0x3cc0c0c1
- 80060fc:	0801bf40 	.word	0x0801bf40
+ 80060fc:	0801bf3c 	.word	0x0801bf3c
  8006100:	00024850 	.word	0x00024850
  8006104:	00027670 	.word	0x00027670
- 8006108:	0801c180 	.word	0x0801c180
+ 8006108:	0801c17c 	.word	0x0801c17c
  800610c:	d026      	beq.n	800615c <stai_network_run+0x388c>
  800610e:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8006112:	f5a3 6308 	sub.w	r3, r3, #2176	@ 0x880
@@ -11539,10 +11540,10 @@ stai_return_code stai_network_run(
  8006460:	00037c80 	.word	0x00037c80
  8006464:	3cc0c0c1 	.word	0x3cc0c0c1
  8006468:	3e41fa00 	.word	0x3e41fa00
- 800646c:	0801c3c0 	.word	0x0801c3c0
+ 800646c:	0801c3bc 	.word	0x0801c3bc
  8006470:	00010360 	.word	0x00010360
  8006474:	00024f50 	.word	0x00024f50
- 8006478:	0801c440 	.word	0x0801c440
+ 8006478:	0801c43c 	.word	0x0801c43c
  800647c:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8006480:	f5a3 630c 	sub.w	r3, r3, #2240	@ 0x8c0
  8006484:	2228      	movs	r2, #40	@ 0x28
@@ -11880,12 +11881,12 @@ stai_return_code stai_network_run(
  80067e8:	0003043c 	.word	0x0003043c
  80067ec:	0003343c 	.word	0x0003343c
  80067f0:	3cc0c0c1 	.word	0x3cc0c0c1
- 80067f4:	0801c740 	.word	0x0801c740
+ 80067f4:	0801c73c 	.word	0x0801c73c
  80067f8:	00011020 	.word	0x00011020
  80067fc:	00012820 	.word	0x00012820
  8006800:	00023f50 	.word	0x00023f50
  8006804:	3e529d65 	.word	0x3e529d65
- 8006808:	0801ca40 	.word	0x0801ca40
+ 8006808:	0801ca3c 	.word	0x0801ca3c
  800680c:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8006810:	f5a3 6310 	sub.w	r3, r3, #2304	@ 0x900
  8006814:	222a      	movs	r2, #42	@ 0x2a
@@ -12230,12 +12231,12 @@ stai_return_code stai_network_run(
  8006b80:	000140a0 	.word	0x000140a0
  8006b84:	3e529d65 	.word	0x3e529d65
  8006b88:	3cc0c0c1 	.word	0x3cc0c0c1
- 8006b8c:	0801cac0 	.word	0x0801cac0
+ 8006b8c:	0801cabc 	.word	0x0801cabc
  8006b90:	000143a0 	.word	0x000143a0
  8006b94:	00014a60 	.word	0x00014a60
  8006b98:	0003043c 	.word	0x0003043c
  8006b9c:	0003343c 	.word	0x0003343c
- 8006ba0:	0801cdc0 	.word	0x0801cdc0
+ 8006ba0:	0801cdbc 	.word	0x0801cdbc
  8006ba4:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8006ba8:	f5a3 6314 	sub.w	r3, r3, #2368	@ 0x940
  8006bac:	222d      	movs	r2, #45	@ 0x2d
@@ -12566,12 +12567,12 @@ stai_return_code stai_network_run(
  8006efc:	00023f50 	.word	0x00023f50
  8006f00:	3cc0c0c1 	.word	0x3cc0c0c1
  8006f04:	3e9c4563 	.word	0x3e9c4563
- 8006f08:	0801d0c0 	.word	0x0801d0c0
+ 8006f08:	0801d0bc 	.word	0x0801d0bc
  8006f0c:	00024750 	.word	0x00024750
  8006f10:	000165e0 	.word	0x000165e0
  8006f14:	00017de0 	.word	0x00017de0
  8006f18:	00024f50 	.word	0x00024f50
- 8006f1c:	0801d140 	.word	0x0801d140
+ 8006f1c:	0801d13c 	.word	0x0801d13c
  8006f20:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8006f24:	f5a3 6318 	sub.w	r3, r3, #2432	@ 0x980
  8006f28:	2230      	movs	r2, #48	@ 0x30
@@ -12913,13 +12914,13 @@ stai_return_code stai_network_run(
  8007294:	00024b90 	.word	0x00024b90
  8007298:	00027f50 	.word	0x00027f50
  800729c:	3cc0c0c1 	.word	0x3cc0c0c1
- 80072a0:	0801d440 	.word	0x0801d440
+ 80072a0:	0801d43c 	.word	0x0801d43c
  80072a4:	00018aa0 	.word	0x00018aa0
  80072a8:	0001b4a0 	.word	0x0001b4a0
  80072ac:	00024ab0 	.word	0x00024ab0
  80072b0:	00037ad0 	.word	0x00037ad0
  80072b4:	3e28b4db 	.word	0x3e28b4db
- 80072b8:	0801d740 	.word	0x0801d740
+ 80072b8:	0801d73c 	.word	0x0801d73c
  80072bc:	d026      	beq.n	800730c <stai_network_run+0x4a3c>
  80072be:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  80072c2:	f5a3 631c 	sub.w	r3, r3, #2496	@ 0x9c0
@@ -13261,11 +13262,11 @@ stai_return_code stai_network_run(
  8007634:	00024e30 	.word	0x00024e30
  8007638:	3e28b4db 	.word	0x3e28b4db
  800763c:	3cc0c0c1 	.word	0x3cc0c0c1
- 8007640:	0801d820 	.word	0x0801d820
+ 8007640:	0801d81c 	.word	0x0801d81c
  8007644:	00020440 	.word	0x00020440
  8007648:	00021010 	.word	0x00021010
  800764c:	00024f10 	.word	0x00024f10
- 8007650:	0801dd60 	.word	0x0801dd60
+ 8007650:	0801dd5c 	.word	0x0801dd5c
  8007654:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8007658:	f5a3 6320 	sub.w	r3, r3, #2560	@ 0xa00
  800765c:	2234      	movs	r2, #52	@ 0x34
@@ -13599,13 +13600,13 @@ stai_return_code stai_network_run(
  80079b4:	00024340 	.word	0x00024340
  80079b8:	3cc0c0c1 	.word	0x3cc0c0c1
  80079bc:	3e35f058 	.word	0x3e35f058
- 80079c0:	0801e2a0 	.word	0x0801e2a0
+ 80079c0:	0801e29c 	.word	0x0801e29c
  80079c4:	00024e30 	.word	0x00024e30
  80079c8:	00025fb0 	.word	0x00025fb0
  80079cc:	0002a930 	.word	0x0002a930
  80079d0:	00035d00 	.word	0x00035d00
  80079d4:	00037200 	.word	0x00037200
- 80079d8:	0801e380 	.word	0x0801e380
+ 80079d8:	0801e37c 	.word	0x0801e37c
  80079dc:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  80079e0:	f5a3 6324 	sub.w	r3, r3, #2624	@ 0xa40
  80079e4:	2237      	movs	r2, #55	@ 0x37
@@ -13946,12 +13947,12 @@ stai_return_code stai_network_run(
  8007d50:	0003176c 	.word	0x0003176c
  8007d54:	00032c6c 	.word	0x00032c6c
  8007d58:	3cc0c0c1 	.word	0x3cc0c0c1
- 8007d5c:	0801e8c0 	.word	0x0801e8c0
+ 8007d5c:	0801e8bc 	.word	0x0801e8bc
  8007d60:	0002bf80 	.word	0x0002bf80
  8007d64:	00030900 	.word	0x00030900
  8007d68:	00024ab0 	.word	0x00024ab0
  8007d6c:	3e41af21 	.word	0x3e41af21
- 8007d70:	0801ee00 	.word	0x0801ee00
+ 8007d70:	0801edfc 	.word	0x0801edfc
  8007d74:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8007d78:	f5a3 6328 	sub.w	r3, r3, #2688	@ 0xa80
  8007d7c:	2239      	movs	r2, #57	@ 0x39
@@ -14298,11 +14299,11 @@ stai_return_code stai_network_run(
  80080ec:	00023cb0 	.word	0x00023cb0
  80080f0:	3e41af21 	.word	0x3e41af21
  80080f4:	3cc0c0c1 	.word	0x3cc0c0c1
- 80080f8:	0801eee0 	.word	0x0801eee0
+ 80080f8:	0801eedc 	.word	0x0801eedc
  80080fc:	000358a0 	.word	0x000358a0
  8008100:	00036470 	.word	0x00036470
  8008104:	00022f90 	.word	0x00022f90
- 8008108:	0801f420 	.word	0x0801f420
+ 8008108:	0801f41c 	.word	0x0801f41c
  800810c:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  8008110:	f5a3 632c 	sub.w	r3, r3, #2752	@ 0xac0
  8008114:	223c      	movs	r2, #60	@ 0x3c
@@ -14628,12 +14629,12 @@ stai_return_code stai_network_run(
  8008464:	000225f0 	.word	0x000225f0
  8008468:	3cc0c0c1 	.word	0x3cc0c0c1
  800846c:	3e02f074 	.word	0x3e02f074
- 8008470:	0801f960 	.word	0x0801f960
+ 8008470:	0801f95c 	.word	0x0801f95c
  8008474:	0003fe70 	.word	0x0003fe70
  8008478:	00062e70 	.word	0x00062e70
  800847c:	0001e790 	.word	0x0001e790
  8008480:	00024b90 	.word	0x00024b90
- 8008484:	0801fb20 	.word	0x0801fb20
+ 8008484:	0801fb1c 	.word	0x0801fb1c
  8008488:	f607 3368 	addw	r3, r7, #2920	@ 0xb68
  800848c:	f5a3 6330 	sub.w	r3, r3, #2816	@ 0xb00
  8008490:	223e      	movs	r2, #62	@ 0x3e
@@ -40127,35 +40128,35 @@ int vlc_print(void (*putc_fct)(void*, const char), void *user, const char* fmt, 
  801307e:	4770      	bx	lr
  8013080:	00040050 	.word	0x00040050
  8013084:	00030020 	.word	0x00030020
- 8013088:	08019b48 	.word	0x08019b48
+ 8013088:	08019b44 	.word	0x08019b44
  801308c:	00040060 	.word	0x00040060
  8013090:	00040070 	.word	0x00040070
- 8013094:	08019e48 	.word	0x08019e48
+ 8013094:	08019e44 	.word	0x08019e44
  8013098:	00030030 	.word	0x00030030
- 801309c:	08019c5c 	.word	0x08019c5c
+ 801309c:	08019c58 	.word	0x08019c58
  80130a0:	00020001 	.word	0x00020001
- 80130a4:	08019b6c 	.word	0x08019b6c
- 80130a8:	08019b50 	.word	0x08019b50
- 80130ac:	08019b5c 	.word	0x08019b5c
- 80130b0:	08019e6c 	.word	0x08019e6c
- 80130b4:	08019b34 	.word	0x08019b34
- 80130b8:	08019c3c 	.word	0x08019c3c
- 80130bc:	08019c1c 	.word	0x08019c1c
- 80130c0:	08019bec 	.word	0x08019bec
- 80130c4:	08019b98 	.word	0x08019b98
- 80130c8:	08019bc4 	.word	0x08019bc4
- 80130cc:	08019cfc 	.word	0x08019cfc
- 80130d0:	08019d20 	.word	0x08019d20
- 80130d4:	08019d44 	.word	0x08019d44
- 80130d8:	08019d68 	.word	0x08019d68
- 80130dc:	08019cd8 	.word	0x08019cd8
- 80130e0:	08019d90 	.word	0x08019d90
- 80130e4:	08019db8 	.word	0x08019db8
- 80130e8:	08019de0 	.word	0x08019de0
- 80130ec:	08019e08 	.word	0x08019e08
- 80130f0:	08019c80 	.word	0x08019c80
- 80130f4:	08019cac 	.word	0x08019cac
- 80130f8:	08019e2c 	.word	0x08019e2c
+ 80130a4:	08019b68 	.word	0x08019b68
+ 80130a8:	08019b4c 	.word	0x08019b4c
+ 80130ac:	08019b58 	.word	0x08019b58
+ 80130b0:	08019e68 	.word	0x08019e68
+ 80130b4:	08019b30 	.word	0x08019b30
+ 80130b8:	08019c38 	.word	0x08019c38
+ 80130bc:	08019c18 	.word	0x08019c18
+ 80130c0:	08019be8 	.word	0x08019be8
+ 80130c4:	08019b94 	.word	0x08019b94
+ 80130c8:	08019bc0 	.word	0x08019bc0
+ 80130cc:	08019cf8 	.word	0x08019cf8
+ 80130d0:	08019d1c 	.word	0x08019d1c
+ 80130d4:	08019d40 	.word	0x08019d40
+ 80130d8:	08019d64 	.word	0x08019d64
+ 80130dc:	08019cd4 	.word	0x08019cd4
+ 80130e0:	08019d8c 	.word	0x08019d8c
+ 80130e4:	08019db4 	.word	0x08019db4
+ 80130e8:	08019ddc 	.word	0x08019ddc
+ 80130ec:	08019e04 	.word	0x08019e04
+ 80130f0:	08019c7c 	.word	0x08019c7c
+ 80130f4:	08019ca8 	.word	0x08019ca8
+ 80130f8:	08019e28 	.word	0x08019e28
 
 080130fc <stai_runtime_init>:
  80130fc:	2000      	movs	r0, #0

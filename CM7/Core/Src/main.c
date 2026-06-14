@@ -208,13 +208,13 @@ Error_Handler();
 
 	            STM32CubeAI_Studio_AI_Process();
 
-	            float max_prob = -1.0f;
-	            user_move = 0; // Global variable
-	            for (int i = 0; i < 3; i++) {
-	            	if (predictions[i] > max_prob) {
-	            		max_prob = predictions[i];
+	            float max_prob = predictions[0];
+	            user_move = 0;
+	            for (int i = 1; i < 3; i++) {
+	                if (predictions[i] > max_prob) {
+	                    max_prob = predictions[i];
 	                    user_move = i;
-	            	}
+	                }
 	            }
 
 	            Send_Data_To_PC(stm32_move, user_move);
