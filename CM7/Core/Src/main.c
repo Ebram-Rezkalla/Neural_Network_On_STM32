@@ -25,15 +25,24 @@
 #include "common.h"
 #include "ov7670.h"
 #include <stdio.h>
+#include <string.h>
+#if defined ( __ICCARM__ )
+#define AI_RAM_D2   _Pragma("location=\".buffer\"")
+#elif defined ( __CC_ARM ) || ( __GNUC__ )
+#define AI_RAM_D2   __attribute__((section(".buffer")))
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+void Game_Countdown(void);
+void Process_Image_128x128(void);
+void Send_Data_To_PC(int cpu_move, int player_move);
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define MAX_PICTURE_BUFF     38400
 
 /* DUAL_CORE_BOOT_SYNC_SEQUENCE: Define for dual core boot synchronization    */
 /*                             demonstration code based on hardware semaphore */
@@ -64,10 +73,13 @@ I2C_HandleTypeDef hi2c2;
 UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
-#define MAX_PICTURE_BUFF     38400
-#define DIMENSIONE_GRIGI     76800
-uint32_t* foto[MAX_PICTURE_BUFF];
-uint8_t buffer_grigi[DIMENSIONE_GRIGI];
+AI_RAM_D2 uint32_t picture[MAX_PICTURE_BUFF];
+AI_RAM_D2 uint8_t buffer_ai[STAI_NETWORK_IN_1_SIZE_BYTES]; //STAI_NETWORK_IN_1_SIZE_BYTES = 16384 byts
+volatile uint8_t start_game_flag = 0;
+volatile uint8_t data_ready_flag = 0;
+int stm32_move = 0;
+int user_move  = 0;
+extern float predictions[3];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -167,9 +179,8 @@ Error_Handler();
   MX_DCMI_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  // STM32CubeAI_Studio_AI_Init();
+  	STM32CubeAI_Studio_AI_Init();
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET); //Camera PWDN to GND
-    // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); //LCD Backlight to 3V3
     ov7670_init(&hdcmi, &hdma_dcmi, &hi2c2);
     ov7670_config(OV7670_MODE_QVGA_YUV);
   /* USER CODE END 2 */
@@ -178,32 +189,38 @@ Error_Handler();
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-// STM32CubeAI_Studio_AI_Process();
-	  // 1. Avvia lo scatto singolo (Snapshot)
-	      ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)foto);
+	  if (start_game_flag == 1)
+	        {
+		  	  	start_game_flag = 0;
 
-	      while(HAL_DCMI_GetState(&hdcmi) == HAL_DCMI_STATE_BUSY) {
-	              // Aspetta qui senza toccare registri
-	          }
-	      // 3. Ora che il frame è statico e sicuro, avvertiamo Python
-	      HAL_UART_Transmit(&huart3, (uint8_t*)"*START*\r\n", 9, 100);
+	            Game_Countdown();
 
-	      uint8_t* pFotoBytes = (uint8_t*)foto;
-	      int indice_grigi = 0;
+	            stm32_move = HAL_GetTick() % 3;
 
-	      // 4. Compattiamo in RAM
-	      for (int i = 0; i < 153600; i += 2) {
-	          buffer_grigi[indice_grigi] = pFotoBytes[i];
-	          indice_grigi++;
-	      }
+	            ov7670_startCap(OV7670_CAP_SINGLE_FRAME, (uint32_t)picture);
+	        }
 
-	      // 6. Invio a pacchetti riga per riga
-	      for (int riga = 0; riga < 240; riga++) {
-	          uint8_t* puntatore_riga = &buffer_grigi[riga * 320];
-	          HAL_UART_Transmit(&huart3, puntatore_riga, 320, 100);
-	          HAL_Delay(1);
-	      }
-	      HAL_Delay(100);
+	        if (data_ready_flag == 1)
+	        {
+	            data_ready_flag = 0;
+
+	            Process_Image_128x128();
+
+	            STM32CubeAI_Studio_AI_Process();
+
+	            float max_prob = predictions[0];
+	            user_move = 0;
+	            for (int i = 1; i < 3; i++) {
+	                if (predictions[i] > max_prob) {
+	                    max_prob = predictions[i];
+	                    user_move = i;
+	                }
+	            }
+
+	            Send_Data_To_PC(stm32_move, user_move);
+	        }
+
+	        HAL_Delay(10);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -468,7 +485,112 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if(GPIO_Pin == GPIO_PIN_13)
 
+    {
+
+    	start_game_flag = 1;
+
+    }
+}
+void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
+{
+    // Check if the interrupt comes from our camera DCMI instance
+    if(hdcmi->Instance == DCMI)
+    {
+        data_ready_flag = 1;
+    }
+}
+/**
+  * @brief  Transmits the countdown log messages via UART for pc.
+  * @param  None
+  * @retval None
+  */
+void Game_Countdown(void)
+{
+    HAL_UART_Transmit(&huart3, (uint8_t*)"INFO:Get ready...\r\n", 19, 100);
+    HAL_Delay(300);
+    HAL_UART_Transmit(&huart3, (uint8_t*)"COUNT:3\r\n", 9, 100);
+    HAL_Delay(300);
+    HAL_UART_Transmit(&huart3, (uint8_t*)"COUNT:2\r\n", 9, 100);
+    HAL_Delay(300);
+    HAL_UART_Transmit(&huart3, (uint8_t*)"COUNT:1\r\n", 9, 100);
+    HAL_Delay(300);
+}
+/**
+  * @brief  Performs image cropping and downsampling from YUV matrix to a 128x128 monochrome buffer.
+  * @param  None
+  * @retval None
+  */
+void Process_Image_128x128(void)
+{
+    SCB_InvalidateDCache_by_Addr((uint32_t*)picture, 153600);
+
+    uint8_t* photo_bytes_ptr = (uint8_t*)picture;
+    int ai_index = 0;
+
+    for (int out_row = 0; out_row < 128; out_row++) {
+        int in_row = (out_row * 240) / 128;
+        for (int out_col = 0; out_col < 128; out_col++) {
+            int in_col = (out_col * 320) / 128;
+
+            // YUV422 format: indexing steps by 2 bytes per pixel
+            int original_pixel_index = (in_row * 320 + in_col) * 2;
+
+            // Extract the Luminance (Y) byte channel
+            buffer_ai[ai_index] = photo_bytes_ptr[original_pixel_index];
+            ai_index++;
+        }
+    }
+
+    // Clean D-Cache to flush the updated AI buffer back to the physical RAM pool
+    SCB_CleanDCache_by_Addr((uint32_t*)buffer_ai, 16384);
+}
+/**
+  * @brief  Evaluates the match results and streams the log text along with the 128x128 image stream.
+  * @param  cpu_move: The random generated move from the STM32 (0-2)
+  * @param  player_move: The predicted move from the User via Neural Network (0-2)
+  * @retval None
+  */
+void Send_Data_To_PC(int cpu_move, int player_move)
+{
+    char local_buffer[50];
+
+    // Transmit move identifiers
+    sprintf(local_buffer, "STM32_MOVE:%d\r\n", cpu_move);
+    HAL_UART_Transmit(&huart3, (uint8_t*)local_buffer, strlen(local_buffer), 100);
+
+    sprintf(local_buffer, "USER_MOVE:%d\r\n", player_move);
+    HAL_UART_Transmit(&huart3, (uint8_t*)local_buffer, strlen(local_buffer), 100);
+
+    // Match winning logic evaluation (0=Paper, 1=Rock, 2=Scissors)
+    if (player_move == cpu_move) {
+        HAL_UART_Transmit(&huart3, (uint8_t*)"RESULT:TIE\r\n", 15, 100);
+    }
+    // USER WINNING CONDITIONS:
+    // - Player inputs Paper (0) and CPU inputs Rock (1)
+    // - Player inputs Rock (1) and CPU inputs Scissors (2)
+    // - Player inputs Scissors (2) and CPU inputs Paper (0)
+    else if ((player_move == 0 && cpu_move == 1) ||
+             (player_move == 1 && cpu_move == 2) ||
+             (player_move == 2 && cpu_move == 0)) {
+        HAL_UART_Transmit(&huart3, (uint8_t*)"RESULT:YOU WIN!\r\n", 20, 100);
+    }
+    // Any other case results in a CPU win
+    else {
+        HAL_UART_Transmit(&huart3, (uint8_t*)"RESULT:STM32 WINS!\r\n", 23, 100);
+    }
+
+    // Stream the binary image line by line
+    HAL_UART_Transmit(&huart3, (uint8_t*)"*START_FOTO*\r\n", 14, 100);
+    for (int row = 0; row < 128; row++) {
+        uint8_t* row_ptr = &buffer_ai[row * 128];
+        HAL_UART_Transmit(&huart3, row_ptr, 128, 100);
+        HAL_Delay(1); // Small delay to prevent UART buffer flooding on the host PC
+    }
+}
 /* USER CODE END 4 */
 
  /* MPU Configuration */

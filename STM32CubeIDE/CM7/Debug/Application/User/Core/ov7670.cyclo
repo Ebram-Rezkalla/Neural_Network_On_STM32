@@ -3,7 +3,6 @@
 ../Application/User/Core/ov7670.c:74:5:ov7670_startCap	3
 ../Application/User/Core/ov7670.c:89:5:ov7670_stopCap	1
 ../Application/User/Core/ov7670.c:96:6:ov7670_registerCallback	1
-../Application/User/Core/ov7670.c:102:6:HAL_DCMI_FrameEventCallback	3
 ../Application/User/Core/ov7670.c:113:6:HAL_DCMI_VsyncEventCallback	1
 ../Application/User/Core/ov7670.c:127:12:ov7670_write	1
 ../Application/User/Core/ov7670.c:136:12:ov7670_read	1

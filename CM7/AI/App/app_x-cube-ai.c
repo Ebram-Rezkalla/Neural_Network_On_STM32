@@ -104,7 +104,7 @@ STAI_ALIGNED(32) static uint8_t states_1[4];
 stai_ptr data_states[] = {
     states_1
 };
-float mie_predizioni[3];
+float predictions[3];
 
 
 
@@ -114,7 +114,7 @@ float mie_predizioni[3];
 static stai_size in_length, out_length;
 static stai_ptr stai_input[STAI_NETWORK_IN_NUM];
 static stai_ptr stai_output[STAI_NETWORK_OUT_NUM];
-
+extern uint8_t buffer_ai[STAI_NETWORK_IN_1_SIZE_BYTES];
 
 /* 
  * Bootstrap
@@ -205,35 +205,30 @@ stai_return_code aiRun() {
   LC_PRINT(" CPU cycles      : %" PRIu32 "\r\n", end_dwt);
   LC_PRINT(" CPU cycles (avg): %" PRIu32 "\r\n", total_cycles / ++inference_nb);
   LC_PRINT(" Sleep for 5s...\r\n");
-  HAL_Delay(5000);
+  // HAL_Delay(5000);
 
   return ret_code;
 }
 
 
-int acquire_and_process_data()
+
+int acquire_and_process_data(void)
 {
   /* USER CODE BEGIN acquire_and_process_data */
-	// memcpy((uint8_t*)stai_input[0], (const uint8_t*)mia_foto_raw, STAI_NETWORK_IN_1_SIZE_BYTES);
 
-  /* fill the inputs of the c-model 
-  for (int idx=0; idx < STAI_NETWORK_IN_NUM; idx++ )
-  {
-      stai_input[idx] = ....
-  }
+  // Copiamo i 16384 byte del tuo buffer direttamente nella pancia dell'AI
+  memcpy((uint8_t*)stai_input[0], (const uint8_t*)buffer_ai, STAI_NETWORK_IN_1_SIZE_BYTES);
 
-  */
   return 0;
   /* USER CODE END acquire_and_process_data */
 }
-
 int post_process()
 {
   /* USER CODE BEGIN post_process */
 	float *valori_output = (float*)stai_output[0];
-	mie_predizioni[0] = valori_output[0]; // Carta (paper)
-	    mie_predizioni[1] = valori_output[1]; // Sasso (rock)
-	    mie_predizioni[2] = valori_output[2]; // Forbice (scissors)
+	predictions[0] = valori_output[0]; // Carta (paper)
+	predictions[1] = valori_output[1]; // Sasso (rock)
+	predictions[2] = valori_output[2]; // Forbice (scissors)
   /* process the predictions
   for (int idx=0; idx < STAI_NETWORK_OUT_NUM; idx++ )
   {
@@ -263,7 +258,7 @@ void main_loop() {
     post_process();
   }
   /* USER CODE END main_loop */
-}
+}/*
 
 
 /* Entry points --------------------------------------------------------------*/
@@ -279,7 +274,11 @@ void STM32CubeAI_Studio_AI_Init(void)
 
 void STM32CubeAI_Studio_AI_Process(void)
 {
-    main_loop();
+	acquire_and_process_data();
+	/* 2 - Call inference engine */
+	aiRun();
+	    /* 3 - Post-process the predictions */
+	post_process();
 } 
 
 void STM32CubeAI_Studio_AI_Deinit(void)
